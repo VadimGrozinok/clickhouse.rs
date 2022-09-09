@@ -56,6 +56,7 @@ static_assertions = "1.1.0"
 lz4 = { version = "1.23.3", optional = true }
 clickhouse-rs-cityhash-sys = { version = "0.1.2", optional = true }
 sealed = "0.3.0"
+hyper-tls = "0.5.0"
 
 [dev-dependencies]
 criterion = "0.3.2"

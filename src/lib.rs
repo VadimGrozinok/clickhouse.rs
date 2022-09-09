@@ -9,6 +9,7 @@ extern crate static_assertions;
 use std::{collections::HashMap, sync::Arc, time::Duration};
 
 use hyper::client::connect::HttpConnector;
+use hyper_tls::HttpsConnector;
 
 pub use clickhouse_derive::Row;
 
@@ -82,6 +83,17 @@ impl Client {
             compression: Compression::default(),
             options: HashMap::new(),
         }
+    }
+
+    /// Creates a new client with a specified underlying HTTPS client.
+    pub fn with_https_client() -> Self {
+        let connector = HttpsConnector::new();
+
+        let client = hyper::Client::builder()
+            .pool_idle_timeout(POOL_IDLE_TIMEOUT)
+            .build::<_, hyper::Body>(connector);
+
+        Self::with_http_client(client)
     }
 
     /// Specifies ClickHouse's url. Should point to HTTP endpoint.
